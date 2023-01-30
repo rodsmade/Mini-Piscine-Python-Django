@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <form onsubmit="displayFormContents()">
+    <form onsubmit="return false;">
         <label for="firstname">First name:</label>
         <input type="text" id="firstname" name="firstname"><br><br>
 
@@ -45,7 +45,7 @@
         <input type="radio" id="gender_other" name="gender" value="gender_other">
         <label for="gender_other">other</label>
 
-        <br><br><input type="submit" value="Submit">
+        <br><br><input type="submit" value="Submit" onclick="displayFormContents()">
     </form>
 
     <script src="popup.js"></script>
