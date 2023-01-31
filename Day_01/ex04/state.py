@@ -13,7 +13,7 @@ capital_cities = {
     "CO": "Denver"
 }
 
-def capital_city():
+def state():
     if (len(sys.argv) != 2):
         return
     elif (sys.argv[1] not in capital_cities.values()):
@@ -26,4 +26,4 @@ def capital_city():
 
 
 if __name__ == '__main__':
-    capital_city()
+    state()
