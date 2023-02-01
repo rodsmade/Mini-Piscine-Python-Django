@@ -26,7 +26,7 @@ def my_sort():
     alphabetically_sorted = sorted(d.items())
     sorted_rockstars = sorted(dict(alphabetically_sorted).items(), key=lambda x: x[1])
     for entry in sorted_rockstars:
-        print(entry[1], entry[0])
+        print(entry[0])
 
 
 if __name__ == "__main__":
