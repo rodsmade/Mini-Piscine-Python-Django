@@ -13,13 +13,15 @@ capital_cities = {
     "CO": "Denver"
 }
 
+
 def state():
     if (len(sys.argv) != 2):
         return
     elif (sys.argv[1] not in capital_cities.values()):
         print("Unknown capital city")
     else:
-        state_code = list(capital_cities.keys())[list(capital_cities.values()).index(sys.argv[1])]
+        state_code = list(capital_cities.keys())[list(
+            capital_cities.values()).index(sys.argv[1])]
         print(list(states.keys())[list(states.values()).index(state_code)])
 
     return

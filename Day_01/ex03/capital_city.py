@@ -13,6 +13,7 @@ capital_cities = {
     "CO": "Denver"
 }
 
+
 def capital_city():
     if (len(sys.argv) != 2):
         return

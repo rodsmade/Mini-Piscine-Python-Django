@@ -13,19 +13,22 @@ capital_cities = {
     "CO": "Denver"
 }
 
+
 def capital_city(state):
     if (state not in states.keys()):
-        return("Unknown state")
+        return ("Unknown state")
     else:
-        return(capital_cities[states[state]])
+        return (capital_cities[states[state]])
+
 
 def state(capital):
     if (capital not in capital_cities.values()):
-        return("Unknown capital city")
+        return ("Unknown capital city")
     else:
         all_capitals = list(capital_cities.values())
         index_of_capital = all_capitals.index(capital)
-        return(list(states.keys())[index_of_capital])
+        return (list(states.keys())[index_of_capital])
+
 
 def all_in():
     if len(sys.argv) != 2:
@@ -51,6 +54,7 @@ def all_in():
             print(element, "is neither a capital city nor a state")
 
     return
+
 
 if __name__ == '__main__':
     all_in()
