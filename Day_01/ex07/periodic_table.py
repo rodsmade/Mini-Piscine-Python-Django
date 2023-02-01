@@ -21,23 +21,35 @@ def write_header(output_file):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Periodic Table</title>
     <style>
+        body {
+            font-size: 0.7em;
+        }
+        .show, .hide {
+            width: 100px;
+            height: 10px;
+        }
         .show {
-            width: 50px;
-            height: 50px;
-            border: solid;
+            border: solid 1px;
         }
         .hide {
-            width: 50px;
-            height: 50px;
             border: none;
         }
         ul {
-            list-style: none;
+            padding: 0;
+            list-style-type: none;
+        }
+        .element-number {
+            padding-left: 10px;
+        }
+        ul .other{
+            text-align: center;
+        }
+        h1, h4 {
+            margin: 7px;
         }
     </style>
 </head>
 <body>
-    <h1 style="color: blue">Hello World!</h1>
     <table>
 ''')
 
@@ -56,28 +68,32 @@ def close_tr_tag(output_file):
 def write_show(output_file, current_element):
     output_file.write('''
                     <td class="show">
-                        <h4>name</h4>
                         <ul>
-                            <li>''' + current_element["number"] + '''</li>
-                            <li>''' + current_element["small"] + '''</li>
-                            <li>''' + current_element["molar"] + '''</li>
+                            <li class="element-number">''' + current_element["number"] + '''</li>
+                            <li class="other"><h1>''' + current_element["small"] + '''</h1></li>
+                            <li class="other"><h4>''' + current_element["name"] + '''</h4></li>
+                            <li class="other">''' + current_element["molar"] + '''</li>
                         </ul>
                     </td>
                 ''')
 
 
 def get_object_from_line(batata):
-    print("dentro da object:", batata)
+    data_dict = {}
+
     if batata == "":
-        print("entrou no if")
         return {}
-    line_read = batata.strip().split('=')[1].strip()
+
+    pamonha = batata.strip().split('=')
+
+    data_dict["name"] = pamonha[0]
+
+    line_read = pamonha[1].strip()
 
     # Split the string into a list of key-value pairs
     key_value_pairs = line_read.split(', ')
 
     # Create an empty dictionary
-    data_dict = {}
 
     # Loop through each key-value pair and add it to the dictionary
     for key_value in key_value_pairs:
@@ -88,7 +104,6 @@ def get_object_from_line(batata):
 
 def write_table(output_file, input_file):
     current_element = get_object_from_line(input_file.readline())
-    print("current element: ", current_element)
     pos_int = int(current_element["position"])
 
     for tr in range(7):
@@ -98,7 +113,6 @@ def write_table(output_file, input_file):
                 # escreve a tag com os elementos
                 write_show(output_file, current_element)
                 # lança um outro readline
-                print("td:", td, "curr el:", current_element)
                 current_element = get_object_from_line(input_file.readline())
                 if current_element != {}:
                     pos_int = int(current_element["position"])
