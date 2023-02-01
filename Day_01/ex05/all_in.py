@@ -31,13 +31,12 @@ def all_in():
     if len(sys.argv) != 2:
         return
     terms = sys.argv[1].split(",")
-    res = []
+    stripped_terms = []
     for term in terms:
-        trimmed = term.strip(' ')
-        res.append(trimmed)
+        stripped_terms.append(term.strip(' '))
 
     no_double_spaces = []
-    for element in res:
+    for element in stripped_terms:
         while '  ' in element:
             element = element.replace('  ', ' ')
         no_double_spaces.append(element)
@@ -48,9 +47,7 @@ def all_in():
             print(capitalized, "is the capital of", state(capitalized))
         elif capitalized in states.keys():
             print(capital_city(capitalized), "is the capital of", capitalized)
-        elif element == '':
-            print('\r', end='')
-        else:
+        elif element != '':
             print(element, "is neither a capital city nor a state")
 
     return
