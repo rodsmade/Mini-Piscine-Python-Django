@@ -12,6 +12,17 @@
 
 import sys
 
+alkali_metals = ["Li", "Na", "K", "Rb", "Cs", "Fr"]
+alkaline_earth_metals = ["Be", "Mg", "Ca", "Sr", "Ba", "Ra"]
+transition_metals = ["Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn"]
+post_transition_metals = ["Al", "Ga", "In", "Tl", "Sn", "Pb", "Bi", "Uut", "Fl", "Uup", "Lv"]
+metalloids = ["B", "Si", "Ge", "As", "Sb", "Te", "Po"]
+nonmetals = ["H", "C", "N", "O", "P", "S", "Se"]
+halogens = ["F", "Cl", "Br", "I", "At", "Ts", "Uus"]
+noble_gases = ["He", "Ne", "Ar", "Kr", "Xe", "Rn", "Uuo"]
+
+
+
 def write_header(output_file):
     output_file.write('''<!DOCTYPE html>
 <html lang="en">
@@ -47,6 +58,30 @@ def write_header(output_file):
         h1, h4 {
             margin: 7px;
         }
+        .alkali_metals {
+            background-color: #f1c35a;
+        }
+        .alkaline_earth_metals {
+            background-color: #ebe555;
+        }
+        .transition_metals {
+            background-color: #ef9dab;
+        }
+        .post_transition_metals {
+            background-color: #a7cad2;
+        }
+        .metalloids {
+            background-color: #7ac8b6;
+        }
+        .nonmetals {
+            background-color: #a9db5f;
+        }
+        .noble_gases {
+            background-color: #7baedf;
+        }
+        .halogens {
+            background-color: #b4e2f1;
+        }
     </style>
 </head>
 <body>
@@ -65,9 +100,29 @@ def close_tr_tag(output_file):
         </tr>
     ''')
 
+def write_bg_color(small):
+    if small in alkali_metals:
+        return("alkali_metals")
+    elif small in alkaline_earth_metals:
+        return("alkaline_earth_metals")
+    elif small in transition_metals:
+        return("transition_metals")
+    elif small in post_transition_metals:
+        return("post_transition_metals")
+    elif small in metalloids:
+        return("metalloids")
+    elif small in nonmetals:
+        return("nonmetals")
+    elif small in noble_gases:
+        return("noble_gases")
+    elif small in halogens:
+        return("halogens")
+    else:
+        return("unknown")
+
 def write_show(output_file, current_element):
     output_file.write('''
-                    <td class="show">
+                    <td class="show ''' + write_bg_color(current_element["small"]) + '''">
                         <ul>
                             <li class="element-number">''' + current_element["number"] + '''</li>
                             <li class="other"><h1>''' + current_element["small"] + '''</h1></li>
