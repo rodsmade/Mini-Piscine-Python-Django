@@ -46,6 +46,10 @@ def write_header(output_file):
         .hide {
             border: none;
         }
+        #table-title {
+            text-align: center;
+            font-size: xxx-large;
+        }
         ul {
             padding: 0;
             list-style-type: none;
@@ -86,6 +90,7 @@ def write_header(output_file):
     </style>
 </head>
 <body>
+    <h1 id="table-title">Periodic Table</h1>
     <table>
 ''')
 
