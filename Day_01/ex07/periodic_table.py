@@ -192,7 +192,7 @@ def write_footer(file):
 
 def periodic_table():
     # Creating the HTML file
-    output_file = open("demo.html", "w")
+    output_file = open("periodic_table.html", "w")
     write_header(output_file)
 
     # Open input file with periodic table information
