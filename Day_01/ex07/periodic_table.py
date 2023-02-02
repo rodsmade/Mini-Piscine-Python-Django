@@ -14,13 +14,14 @@ import sys
 
 alkali_metals = ["Li", "Na", "K", "Rb", "Cs", "Fr"]
 alkaline_earth_metals = ["Be", "Mg", "Ca", "Sr", "Ba", "Ra"]
-transition_metals = ["Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn"]
-post_transition_metals = ["Al", "Ga", "In", "Tl", "Sn", "Pb", "Bi", "Uut", "Fl", "Uup", "Lv"]
+transition_metals = ["Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh",
+                     "Pd", "Ag", "Cd", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn"]
+post_transition_metals = ["Al", "Ga", "In", "Tl",
+                          "Sn", "Pb", "Bi", "Uut", "Fl", "Uup", "Lv"]
 metalloids = ["B", "Si", "Ge", "As", "Sb", "Te", "Po"]
 nonmetals = ["H", "C", "N", "O", "P", "S", "Se"]
 halogens = ["F", "Cl", "Br", "I", "At", "Ts", "Uus"]
 noble_gases = ["He", "Ne", "Ar", "Kr", "Xe", "Rn", "Uuo"]
-
 
 
 def write_header(output_file):
@@ -100,25 +101,27 @@ def close_tr_tag(output_file):
         </tr>
     ''')
 
+
 def write_bg_color(small):
     if small in alkali_metals:
-        return("alkali_metals")
+        return ("alkali_metals")
     elif small in alkaline_earth_metals:
-        return("alkaline_earth_metals")
+        return ("alkaline_earth_metals")
     elif small in transition_metals:
-        return("transition_metals")
+        return ("transition_metals")
     elif small in post_transition_metals:
-        return("post_transition_metals")
+        return ("post_transition_metals")
     elif small in metalloids:
-        return("metalloids")
+        return ("metalloids")
     elif small in nonmetals:
-        return("nonmetals")
+        return ("nonmetals")
     elif small in noble_gases:
-        return("noble_gases")
+        return ("noble_gases")
     elif small in halogens:
-        return("halogens")
+        return ("halogens")
     else:
-        return("unknown")
+        return ("unknown")
+
 
 def write_show(output_file, current_element):
     output_file.write('''
@@ -156,6 +159,7 @@ def get_object_from_line(batata):
         data_dict[key] = value.strip()
 
     return data_dict
+
 
 def write_table(output_file, input_file):
     current_element = get_object_from_line(input_file.readline())
@@ -199,6 +203,7 @@ def periodic_table():
 
     output_file.close()
     input_file.close()
+
 
 if __name__ == "__main__":
     periodic_table()
