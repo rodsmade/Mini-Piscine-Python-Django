@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{name}'s CV</title>
-</head>
-<body>
-    <h1>{name} {surname}</h1>
-    <p>{age} years old</p>
-    <p><i>{profession}</i></p>
-</body>
-</html>
+<p>"-Who are you?
+-A {name}!"</p>
+<p>"-your surname?
+-A {surname}!"</p>
+<p>"-your position?
+-A {position}!"</p>
+<p>"-your age?
+-A {age}!"</p>
+<p>"-your telephone?
+-A {telephone}!"</p>
+<p>"- your email?
+-A {email}!"</p>
+<p>"- your grades?
+-A {grades}!"</p>
+<p>"- and your school?
+-A {school}!"</p>
