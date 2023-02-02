@@ -23,9 +23,7 @@ d = {
 
 
 def my_sort():
-    alphabetically_sorted = sorted(d.items())
-    sorted_rockstars = sorted(dict(alphabetically_sorted).items(), key=lambda x: x[1])
-    for entry in sorted_rockstars:
+    for entry in sorted(d.items(), key=lambda x: (x[1], x[0])):
         print(entry[0])
 
 
