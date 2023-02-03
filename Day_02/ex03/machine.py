@@ -1,8 +1,8 @@
-import beverages
+from beverages import *
 import random
 
 
-class EmptyCup(beverages.HotBeverage):
+class EmptyCup(HotBeverage):
     name = "empty cup"
     price = 0.90
 
@@ -41,18 +41,20 @@ class CoffeeMachine:
 
 if __name__ == "__main__":
     machine = CoffeeMachine()
-    beverage_classes = [beverages.Coffee, beverages.Tea, beverages.Cappuccino, beverages.Chocolate]
+    beverage_classes = [Coffee, Tea, Cappuccino, Chocolate]
 
     try:
         for i in range(15):
-            print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
+            print("------------------------------------ Drink No.: ", i + 1,
+                  "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
     except BrokenMachineException as e:
         print(e)
-    
+
     machine.repair()
 
     try:
         for i in range(15):
-            print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
+            print("------------------------------------ Drink No.: ", i + 1,
+                  "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
     except BrokenMachineException as e:
         print(e)
