@@ -51,5 +51,8 @@ if __name__ == "__main__":
     
     machine.repair()
 
-    for i in range(10):
-        print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
+    try:
+        for i in range(15):
+            print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
+    except BrokenMachineException as e:
+        print(e)
