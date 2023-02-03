@@ -1,3 +1,8 @@
+class Coffee:
+    def __str__(self):
+        return ("This is the worst coffee you ever tasted.")
+
+
 class Intern:
     def __init__(self, name="My name? I’m nobody, an intern, I have no name."):
         self.name = name
@@ -5,20 +10,23 @@ class Intern:
     def __str__(self):
         return self.name
 
-        
     def work(self):
         raise Exception("I’m just an intern, I can’t do that...")
 
-    class Coffee:
-        def __str__():
-            "This is the worst coffee you ever tasted."
-    
-    def make_coffee():
-        cofee = Coffee()
-        return()
+    def make_coffee(self):
+        return (Coffee())
 
 
+if __name__ == "__main__":
+    junin = Intern("Junin")
+    print(junin)
+    aCoffee = junin.make_coffee()
+    print(aCoffee)
 
+    try:
+        junin.work()
+    except Exception as e:
+        print(e)
 
-A make_coffee() method that will return an instance of the Coffee class that you will
-have implemented in Intern class.
+    noFace = Intern()
+    print(noFace)
