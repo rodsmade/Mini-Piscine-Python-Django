@@ -1,4 +1,4 @@
-from beverages import *
+from beverages import Cappuccino, Chocolate, Coffee, HotBeverage, Tea
 import random
 
 
@@ -45,16 +45,14 @@ if __name__ == "__main__":
 
     try:
         for i in range(15):
-            print("------------------------------------ Drink No.: ", i + 1,
-                  "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
+            print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
     except BrokenMachineException as e:
         print(e)
-
+    
     machine.repair()
 
     try:
         for i in range(15):
-            print("------------------------------------ Drink No.: ", i + 1,
-                  "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
+            print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
     except BrokenMachineException as e:
         print(e)
