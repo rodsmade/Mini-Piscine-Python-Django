@@ -22,6 +22,12 @@ class CoffeeMachine:
     def test_machine(self):
         raise BrokenMachineException
 
+    def repair(self):
+        print("This machine is under repair. Please come again later!")
+
+    def serve(self, hot_beverage):
+        print("Serving a cup of {} for {:.2f}".format(hot_beverage.description(), hot_beverage.price))
+
 
 if __name__ == "__main__":
     machine = CoffeeMachine()
@@ -32,3 +38,14 @@ if __name__ == "__main__":
         machine.test_machine()
     except BrokenMachineException as e:
         print(e)
+
+    coffee = beverages.Coffee()
+    machine.serve(coffee)
+
+    tea = beverages.Tea()
+    machine.serve(tea)
+    
+    chocolate = beverages.Chocolate()
+    machine.serve(chocolate)
+
+    machine.repair()
