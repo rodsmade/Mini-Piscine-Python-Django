@@ -2,23 +2,24 @@ from beverages import Cappuccino, Chocolate, Coffee, HotBeverage, Tea
 import random
 
 
-class EmptyCup(HotBeverage):
-    name = "empty cup"
-    price = 0.90
-
-    def __init__(self) -> None:
-        pass
-
-    def description(self) -> str:
-        return ("An empty cup?! Gimme my money back!")
-
-
-class BrokenMachineException(Exception):
-    def __init__(self) -> None:
-        super().__init__("This coffee machine has to be repaired.")
 
 
 class CoffeeMachine:
+    class EmptyCup(HotBeverage):
+        name = "empty cup"
+        price = 0.90
+
+        def __init__(self) -> None:
+            pass
+
+        def description(self) -> str:
+            return ("An empty cup?! Gimme my money back!")
+
+
+    class BrokenMachineException(Exception):
+        def __init__(self) -> None:
+            super().__init__("This coffee machine has to be repaired.")
+    
     def __init__(self) -> None:
         self.serve_counter = 0
         self.repaired = True
@@ -30,13 +31,13 @@ class CoffeeMachine:
 
     def serve(self, hot_beverage):
         if self.serve_counter < 10:
-            random_options = [hot_beverage, EmptyCup]
+            random_options = [hot_beverage, self.EmptyCup]
             beverage_class = random.choice(random_options)
             self.serve_counter += 1
             return beverage_class()
         else:
             self.repaired = False
-            raise BrokenMachineException
+            raise self.BrokenMachineException
 
 
 if __name__ == "__main__":
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     try:
         for i in range(15):
             print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
-    except BrokenMachineException as e:
+    except machine.BrokenMachineException as e:
         print(e)
     
     machine.repair()
@@ -54,5 +55,5 @@ if __name__ == "__main__":
     try:
         for i in range(15):
             print("------------------------------------ Drink No.: ", i + 1, "\n", machine.serve(beverage_classes[i % 4]), '\n', sep="")
-    except BrokenMachineException as e:
+    except machine.BrokenMachineException as e:
         print(e)
