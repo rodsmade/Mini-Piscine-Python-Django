@@ -14,11 +14,12 @@ class Text(str):
         """
         return super().__str__().replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace('\n', '\n<br />\n')
 
+
 class Elem:
     """
     Elem will permit us to represent our HTML elements.
     """
-    [...]
+    recursion_count = 0
 
     def __init__(self, tag='div', attr={}, content=None, tag_type='double'):
         """
@@ -26,7 +27,18 @@ class Elem:
 
         Obviously.
         """
-        [...]
+        self.tag = tag
+        self.attr = attr
+
+        if content is None:
+            self.content = None
+        else:
+            if hasattr(content, '__iter__'):
+                self.content = content
+            else:
+                self.content = [content]
+
+        self.tag_type = tag_type
 
     def __str__(self):
         """
@@ -35,10 +47,13 @@ class Elem:
         Make sure it renders everything (tag, attributes, embedded
         elements...).
         """
+
+        result = ""
+
         if self.tag_type == 'double':
-            [...]
+            result += "<" + self.tag + self.__make_attr() + ">" + self.__make_content() + "</" + self.tag + ">"
         elif self.tag_type == 'simple':
-            [...]
+            result += "<" + self.tag + self.__make_attr() + " />"
         return result
 
     def __make_attr(self):
@@ -55,11 +70,14 @@ class Elem:
         Here is a method to render the content, including embedded elements.
         """
 
-        if len(self.content) == 0:
+        if not self.content or len(self.content) == 0:
             return ''
         result = '\n'
+        Elem.recursion_count += 1
         for elem in self.content:
-            result += [...]
+            result += Elem.recursion_count * '  ' + str(elem) + '\n'
+        result += (Elem.recursion_count - 1) * '  '
+        Elem.recursion_count -= 1
         return result
 
     def add_content(self, content):
@@ -83,4 +101,6 @@ class Elem:
 
 
 if __name__ == '__main__':
-    [...]
+    print(str(Elem(content=[Text('foo'), Text('bar'), Elem()])))
+
+    print(str(Elem(content=Elem(content=Elem(content=Elem(content=Elem()))))))
