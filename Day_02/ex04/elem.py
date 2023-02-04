@@ -72,11 +72,15 @@ class Elem:
 
         if not self.content or len(self.content) == 0:
             return ''
-        result = '\n'
+
+        result = ''
+
         Elem.recursion_count += 1
         for elem in self.content:
-            result += Elem.recursion_count * '  ' + str(elem) + '\n'
-        result += (Elem.recursion_count - 1) * '  '
+            if len(str(elem)) is not 0:
+                result += '\n' + Elem.recursion_count * '  ' + str(elem)
+        if len(str(elem)) is not 0:
+            result += '\n' + (Elem.recursion_count - 1) * '  '
         Elem.recursion_count -= 1
         return result
 
@@ -101,6 +105,7 @@ class Elem:
 
 
 if __name__ == '__main__':
-    print(str(Elem(content=[Text('foo'), Text('bar'), Elem()])))
-
-    print(str(Elem(content=Elem(content=Elem(content=Elem(content=Elem()))))))
+    print('>', str(Text('')), '<', sep="")
+    print('>', str(Text()), '<', sep="")
+    print(str(Elem(content=Text())))
+    print(str(Elem(content=[Text(), Text()])))
