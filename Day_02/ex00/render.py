@@ -21,6 +21,6 @@ if __name__ == "__main__":
         key_value = line.split(" = ")
         template_contents = template_contents.replace("{" + key_value[0] + "}", key_value[1].strip('"\n'))
     
-    output_file = open("cv.html", "w")
+    output_file = open(sys.argv[1].split('.')[0] + ".html", "w")
     output_file.write(template_contents)
     output_file.close()
