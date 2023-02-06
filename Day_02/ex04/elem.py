@@ -21,6 +21,10 @@ class Elem:
     """
     recursion_count = 0
 
+    class ValidationError(Exception):
+        def __init__(self) -> None:
+            super().__init__("incorrect behaviour.")
+
     def __init__(self, tag='div', attr={}, content=None, tag_type='double'):
         """
         __init__() method.
@@ -30,8 +34,11 @@ class Elem:
         self.tag = tag
         self.attr = attr
 
+
         if content is None:
             self.content = None
+        elif not Elem.check_type(content):
+            raise Elem.ValidationError
         else:
             if hasattr(content, '__iter__'):
                 self.content = content
@@ -77,9 +84,9 @@ class Elem:
 
         Elem.recursion_count += 1
         for elem in self.content:
-            if len(str(elem)) is not 0:
+            if len(str(elem)) != 0:
                 result += '\n' + Elem.recursion_count * '  ' + str(elem)
-        if len(str(elem)) is not 0:
+        if len(str(elem)) != 0:
             result += '\n' + (Elem.recursion_count - 1) * '  '
         Elem.recursion_count -= 1
         return result
