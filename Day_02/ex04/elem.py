@@ -45,7 +45,10 @@ class Elem:
             else:
                 self.content = [content]
 
-        self.tag_type = tag_type
+        if tag_type == "double" or "simple":
+            self.tag_type = tag_type
+        else:
+            raise Elem.ValidationError
 
     def __str__(self):
         """
@@ -112,7 +115,14 @@ class Elem:
 
 
 if __name__ == '__main__':
-    print('>', str(Text('')), '<', sep="")
-    print('>', str(Text()), '<', sep="")
-    print(str(Elem(content=Text())))
-    print(str(Elem(content=[Text(), Text()])))
+    text1 = Text(r'"Hello ground!"')
+    print(text1)
+    title = Elem(tag="title", content=text1)
+    head = Elem(tag="head", content=title)
+    text2 = Text("\"Oh no, not again!\"")
+    h1 = Elem(tag="h1", content=text2)
+    img = Elem(tag="img", tag_type="simple", attr={"src":"http://i.imgur.com/pfp3T.jpg"})
+    body = Elem(tag="body", content=[h1, img])
+    html = Elem(tag="html", content=[head, body])
+
+    print(html)
