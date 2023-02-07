@@ -1,14 +1,15 @@
-class WorkException(Exception):
-    def __init__(self, message, cause=None):
-        super().__init__(message)
-        self.cause = cause
-
-class Coffee:
-    def __str__(self):
-        return ("This is the worst coffee you ever tasted.")
 
 
 class Intern:
+    class WorkException(Exception):
+        def __init__(self, message, cause=None):
+            super().__init__(message)
+            self.cause = cause
+
+    class Coffee:
+        def __str__(self):
+            return ("This is the worst coffee you ever tasted.")
+
     def __init__(self, name="My name? I'm nobody, an intern, I have no name."):
         self.name = name
 
@@ -19,10 +20,11 @@ class Intern:
         raise Exception("I'm just an intern, I can't do that...")
 
     def work_hard(self):
-        raise WorkException("I'm just an intern, I cannot do that much work", "I am not experienced enough")
+        raise Intern.WorkException(
+            "I'm just an intern, I cannot do that much work", "I am not experienced enough")
 
     def make_coffee(self):
-        return (Coffee())
+        return (Intern.Coffee())
 
 
 if __name__ == "__main__":
@@ -43,4 +45,3 @@ if __name__ == "__main__":
     except WorkException as e:
         print(e)
         print("Cause:", e.cause)
-
