@@ -33,7 +33,7 @@ def road_to_philosophy(page_title, pages_visited):
                     return
 
     except requests.exceptions.RequestException:
-        return None
+        sys.exit("It leads to a dead end !")
 
 
 if __name__ == "__main__":
