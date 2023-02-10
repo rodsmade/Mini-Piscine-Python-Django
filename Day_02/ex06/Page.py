@@ -151,6 +151,10 @@ class Page:
             else:
                 return False
         return True
+    
+    def write_to_file(self, file):
+        if type(file) == str:
+            open(file, 'w').write(str(self))
 
 class TestClass(Elem):
     pass
@@ -276,3 +280,6 @@ if __name__ == "__main__":
         traceback.print_exc()
         print(e)
         print('Tests failed!')
+        
+    page = Page(generate_boilerplate_html())
+    page.write_to_file("boilerplate.html")
