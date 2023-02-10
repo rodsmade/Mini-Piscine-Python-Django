@@ -75,6 +75,40 @@ class Page:
             return True
         else:
             return True
+
+    def validate_lists(elem) -> bool:
+        if type(elem) is Ul or type(elem) is Ol:
+            if type(elem.content) != list:
+                elem.content = [elem.content]
+            if len(elem.content) == 0:
+                return False
+            for item in elem.content:
+                if type(item) is not Li:
+                    return False
+            return True
+        else:
+            return True
+        
+    def validate_table_rows(elem) -> bool:
+        if type(elem) is Tr:
+            if type(elem.content) != list:
+                elem.content = [elem.content]
+            if len(elem.content) == 0:
+                return False
+            if type(elem.content[0]) == Th:
+                for item in elem.content:
+                    if type(item) is not Th:
+                        return False
+                return True
+            elif type(elem.content[0]) == Td:
+                for item in elem.content:
+                    if type(item) is not Td:
+                        return False
+                return True
+            else:
+                return False
+        else:
+            return True
         
         
     @staticmethod
@@ -83,6 +117,8 @@ class Page:
             and Page.validate_body_and_div_elem(elem) \
             and Page.validate_ps(elem) \
             and Page.validate_spans(elem) \
+            and Page.validate_lists(elem) \
+            and Page.validate_table_rows(elem) \
             and Page.validate_single_text_elems(elem):
             return True
         return False
@@ -195,6 +231,24 @@ if __name__ == "__main__":
         page = Page(Span(content=[P(), P(), P()]))
         assert page.is_valid() == True
         page = Page(Span(content=[P(), H1(), P()]))
+        assert page.is_valid() == False
+
+        page = Page(Ul())
+        assert page.is_valid() == False
+        page = Page(Ul(content=[]))
+        assert page.is_valid() == False
+        page = Page(Ul(content=Li()))
+        assert page.is_valid() == True
+        page = Page(Ul(content=[Li(), Li(), P(), Li(), Li()]))
+        assert page.is_valid() == False
+
+        page = Page(Tr(content=[Td(), Td(), Td(), Td(), Td()]))
+        assert page.is_valid() == True
+        page = Page(Tr(content=[Th(), Th(), Th(), Th(), Th()]))
+        assert page.is_valid() == True
+        page = Page(Tr(content=[Td(), Td(), Th(), Td(), Td()]))
+        assert page.is_valid() == False
+        page = Page(Tr(content=[Th(), Th(), Td(), Th(), Th()]))
         assert page.is_valid() == False
 
 
