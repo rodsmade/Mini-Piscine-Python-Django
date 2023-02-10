@@ -4,11 +4,16 @@ import sys
 import dewiki
 
 
-def get_page_as_wikitext(page_title):
-    API_ENDPOINT = "https://en.wikipedia.org/w/api.php?action=parse&page=" + page_title + "&prop=wikitext&format=json"
-    
+def get_page_as_wikitext(page_id):
+    API_ENDPOINT = "https://en.wikipedia.org/w/api.php"
+    params = {
+        'action': 'parse',
+        'pageid': page_id,
+        'prop': 'wikitext',
+        'format': 'json'
+    }
     try:
-        response = requests.get(API_ENDPOINT)
+        response = requests.get(API_ENDPOINT, params=params)
         data = json.loads(response.text)['parse']['wikitext']['*']
         return data
     except requests.exceptions.RequestException:
@@ -18,15 +23,21 @@ def get_page_as_wikitext(page_title):
 def dewiki_wikitext(text):
     return dewiki.from_string(text).strip()
 
-def search_for_page_title(search_term):
-    API_ENDPOINT = "https://en.wikipedia.org/w/api.php?action=opensearch&search="
+def get_page_id(search_term):
+    API_ENDPOINT = "https://en.wikipedia.org/w/api.php"
+    params = {
+        'action': 'query',
+        'format': 'json',
+        'titles': search_term,
+        'prop': 'extracts',
+        'redirects': True,
+        'explaintext': 2
+    }
     try:
-        response = requests.get(API_ENDPOINT + search_term)
-        list_of_results = json.loads(response.text)[3]
-        if len(list_of_results) == 0:
-            sys.exit("No page matches the requested search term")
-        else:
-            return list_of_results[0].rsplit('/', 1)[-1]
+        response = requests.get(API_ENDPOINT, params=params)
+        page_id = list(json.loads(response.text)['query']['pages'].keys())[0]
+        
+        return page_id
     except requests.exceptions.RequestException:
         sys.exit("An error occurred while searching the term in the Wikipedia API")
 
@@ -37,9 +48,9 @@ if __name__ == "__main__":
 
     search_term = sys.argv[1].replace(' ', '_')
 
-    page_title = search_for_page_title(search_term)
+    page_id = get_page_id(search_term)
 
-    wikitext = get_page_as_wikitext(page_title)
+    wikitext = get_page_as_wikitext(page_id)
     
     dewikied_page = dewiki_wikitext(wikitext)
     
