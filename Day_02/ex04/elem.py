@@ -12,14 +12,13 @@ class Text(str):
         """
         Do you really need a comment to understand this method?..
         """
-        return super().__str__().replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace('\n', '\n<br />\n')
+        return super().__str__().replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace('\n', '\n<br />\n').replace("\\&quot;", '"')
 
 
 class Elem:
     """
     Elem will permit us to represent our HTML elements.
     """
-    recursion_count = 0
 
     class ValidationError(Exception):
         def __init__(self) -> None:
@@ -31,22 +30,34 @@ class Elem:
 
         Obviously.
         """
-        self.tag = tag
-        self.attr = attr
 
-
-        if content is None:
-            self.content = None
-        elif not Elem.check_type(content):
-            raise Elem.ValidationError
+        # validate tag
+        if type(tag) == type('str'):
+            self.tag = tag
         else:
-            if hasattr(content, '__iter__'):
-                self.content = content
-            else:
-                self.content = [content]
+            raise Elem.ValidationError
 
-        if tag_type == "double" or "simple":
+        # validate attr
+        if type(attr) == type({}):
+            self.attr = attr
+        else:
+            raise Elem.ValidationError
+
+        # validate tag_type
+        if tag_type == 'double' or tag_type == 'simple':
             self.tag_type = tag_type
+        else:
+            raise Elem.ValidationError
+
+        # validate content
+        if content == None:
+            self.content = []
+        elif Elem.check_type(content):
+            if content is None:
+                content = []
+            else:
+                self.content = []
+            self.add_content(content)
         else:
             raise Elem.ValidationError
 
@@ -57,13 +68,11 @@ class Elem:
         Make sure it renders everything (tag, attributes, embedded
         elements...).
         """
-
-        result = ""
-
         if self.tag_type == 'double':
-            result += "<" + self.tag + self.__make_attr() + ">" + self.__make_content() + "</" + self.tag + ">"
+            result = '<' + self.tag + self.__make_attr() + '>' + self.__make_content() + \
+                '</' + self.tag + '>'
         elif self.tag_type == 'simple':
-            result += "<" + self.tag + self.__make_attr() + " />"
+            result = '<' + self.tag + self.__make_attr() + ' />'
         return result
 
     def __make_attr(self):
@@ -80,18 +89,16 @@ class Elem:
         Here is a method to render the content, including embedded elements.
         """
 
-        if not self.content or len(self.content) == 0:
+        if len(self.content) == 0:
             return ''
-
-        result = ''
-
-        Elem.recursion_count += 1
+        result = '\n'
         for elem in self.content:
-            if len(str(elem)) != 0:
-                result += '\n' + Elem.recursion_count * '  ' + str(elem)
-        if len(str(elem)) != 0:
-            result += '\n' + (Elem.recursion_count - 1) * '  '
-        Elem.recursion_count -= 1
+            if str(elem) != '':
+                result += str(elem) + '\n'
+        if result == '\n':
+            result = ''
+        else:
+            result = "  ".join(line for line in result.splitlines(True))
         return result
 
     def add_content(self, content):
@@ -115,14 +122,14 @@ class Elem:
 
 
 if __name__ == '__main__':
-    text1 = Text(r'"Hello ground!"')
-    print(text1)
-    title = Elem(tag="title", content=text1)
-    head = Elem(tag="head", content=title)
-    text2 = Text("\"Oh no, not again!\"")
-    h1 = Elem(tag="h1", content=text2)
-    img = Elem(tag="img", tag_type="simple", attr={"src":"http://i.imgur.com/pfp3T.jpg"})
-    body = Elem(tag="body", content=[h1, img])
-    html = Elem(tag="html", content=[head, body])
+    text1 = Text(r"\"Hello Ground!\"")
+    title = Elem(tag='title', content=[text1])
+    head = Elem(tag='head', content=title)
+    text2 = Text(r"\"Oh no, not again\"")
+    h1 = Elem(tag='h1', content=text2)
+    img = Elem(tag='img', tag_type='simple', attr={
+               'src': "http://i.imgur.com/pfp3T.jpg"})
+    body = Elem(tag='body', content=[h1, img])
+    html = Elem(tag='html', content=[head, body])
 
     print(html)
