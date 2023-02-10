@@ -110,6 +110,17 @@ class Page:
         else:
             return True
         
+    def validate_tables(elem) -> bool:
+        if type(elem) is Table:
+            if type(elem.content) != list:
+                elem.content = [elem.content]
+            for item in elem.content:
+                if type(item) is not Tr:
+                    return False
+            return True
+        else:
+            return True
+        
         
     @staticmethod
     def passes_all_elements_validation(elem):
@@ -119,6 +130,7 @@ class Page:
             and Page.validate_spans(elem) \
             and Page.validate_lists(elem) \
             and Page.validate_table_rows(elem) \
+            and Page.validate_tables(elem) \
             and Page.validate_single_text_elems(elem):
             return True
         return False
@@ -251,6 +263,12 @@ if __name__ == "__main__":
         page = Page(Tr(content=[Th(), Th(), Td(), Th(), Th()]))
         assert page.is_valid() == False
 
+        page = Page(Table(content=[Tr(), Tr(), Tr(), Tr(), Tr()]))
+        assert page.is_valid() == True
+        page = Page(Tr(content=[Tr(), Tr(), Th(), Tr(), Tr()]))
+        assert page.is_valid() == False
+        page = Page(Tr(content=[Th(), Th(), Td(), Th(), Th()]))
+        assert page.is_valid() == False
 
         print("Is_valid() tests: OK!")
 
