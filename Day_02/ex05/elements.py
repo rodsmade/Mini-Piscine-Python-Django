@@ -102,33 +102,36 @@ class Br(Elem):
 
 
 def generate_boilerplate_html():
-    meta1 = Meta(attr={"charset":"UTF-8"})
-    meta2 = Meta(attr={"http-equiv":"X-UA-Compatible", "content":"IE=edge"})
-    meta3 = Meta(attr={'name':"viewport", 'content':"width=device-width, initial-scale=1.0"})
+    meta1 = Meta(attr={"charset": "UTF-8"})
+    meta2 = Meta(attr={"http-equiv": "X-UA-Compatible", "content": "IE=edge"})
+    meta3 = Meta(attr={'name': "viewport",
+                 'content': "width=device-width, initial-scale=1.0"})
     title = Title(content=Text("Document"))
     head = Head(content=[meta1, meta2, meta3, title])
-    
+
     h1 = H1(content=Text("Hello world!"))
     p = P(content=Text("This is a test, do not panic."))
     body = Body(content=[h1, p])
-    
+
     html = Html(content=[head, body])
-    
+
     return html
+
 
 def generate_pdf_test_html():
     title = Title(content=Text(r"\"Hello Ground\""))
     head = Head(content=title)
-    
+
     h1 = H1(content=Text(r"\"Oh no, not again!\""))
-    img = Img(attr={"src":"http://i.imgur.com/pfp3T.jpg"})
+    img = Img(attr={"src": "http://i.imgur.com/pfp3T.jpg"})
     body = Body(content=[h1, img])
-    
+
     html = Html(content=[head, body])
-    
+
     return html
 
+
 if __name__ == "__main__":
-    
+
     html = generate_pdf_test_html()
     print(html)
