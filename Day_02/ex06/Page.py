@@ -71,6 +71,8 @@ if __name__ == "__main__":
         assert page.is_valid() == True
         page = Page(TestClass())
         assert page.is_valid() == False
+        page = Page(Html(content=[Head(), Body()]))
+        assert page.is_valid() == True
 
         print("Is_valid() tests: OK!")
 
