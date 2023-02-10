@@ -54,11 +54,23 @@ class Page:
         else:
             return True
         
+    def validate_ps(elem) -> bool:
+        if type(elem) is P:
+            if type(elem.content) != list:
+                elem.content = [elem.content]
+            for item in elem.content:
+                if type(item) is not Text:
+                    return False
+            return True
+        else:
+            return True
+        
         
     @staticmethod
     def passes_all_elements_validation(elem):
         if Page.validate_html_elem(elem) \
             and Page.validate_body_and_div_elem(elem) \
+            and Page.validate_ps(elem) \
             and Page.validate_single_text_elems(elem):
             return True
         return False
@@ -145,6 +157,16 @@ if __name__ == "__main__":
         page = Page(Title(content=H1()))
         assert page.is_valid() == False
 
+        page = Page(P(content=H1()))
+        assert page.is_valid() == False
+        page = Page(P())
+        assert page.is_valid() == True
+        page = Page(P(content=Text()))
+        assert page.is_valid() == True
+        page = Page(P(content=[Text(), Text(), Text()]))
+        assert page.is_valid() == True
+        page = Page(P(content=[Text(), H1(), Text()]))
+        assert page.is_valid() == False
 
 
         print("Is_valid() tests: OK!")
