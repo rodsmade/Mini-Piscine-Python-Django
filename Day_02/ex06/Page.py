@@ -283,3 +283,5 @@ if __name__ == "__main__":
         
     page = Page(generate_boilerplate_html())
     page.write_to_file("boilerplate.html")
+    page = Page(H1(content=Text("Hello World!")))
+    page.write_to_file("no_doctype.html")
