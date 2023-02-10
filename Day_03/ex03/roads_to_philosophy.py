@@ -25,12 +25,11 @@ def road_to_philosophy(page_title, pages_visited):
         pages_visited.append(page_title)
 
         for link in all_links:
-            attributes = str(link).split(' ')
-            for attribute in attributes:
-                if attribute.startswith('href'):
-                    next_search_term = attribute.split('=')[1].rsplit('/', 1)[-1].strip('"')
-                    road_to_philosophy(next_search_term, pages_visited)
-                    return
+            href_value = link['href']
+            if href_value.startswith('/wiki/') and not (href_value.startswith('/wiki/Help:') or href_value.startswith('/wiki/Wikipedia:')):
+                next_search_term = href_value.split('/')[-1]
+                road_to_philosophy(next_search_term, pages_visited)
+                return
 
     except requests.exceptions.RequestException:
         sys.exit("It leads to a dead end !")
