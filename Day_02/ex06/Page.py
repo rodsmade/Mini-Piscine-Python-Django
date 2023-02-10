@@ -32,9 +32,20 @@ class Page:
         else:
             return True
 
+    def validate_body_and_div_elem(elem) -> bool:
+        valid_classes = [H1, H2, Div, Table, Ul, Ol, Span, Text]
+        if type(elem) == Body or type(elem) == Div:
+            for item in elem.content:
+                if type(item) not in valid_classes:
+                    return False
+            return True
+        else:
+            return True
+        
+        
     @staticmethod
     def passes_all_elements_validation(elem):
-        if Page.validate_html_elem(elem):
+        if Page.validate_html_elem(elem) and Page.validate_body_and_div_elem(elem):
             return True
         return False
     
@@ -94,6 +105,20 @@ if __name__ == "__main__":
         assert page.is_valid() == True
         page = Page(Html(content=[Body()]))
         assert page.is_valid() == False
+        page = Page(Body())
+        assert page.is_valid() == True
+        page = Page(Body(content=H1()))
+        assert page.is_valid() == True
+        page = Page(Body(content=Title()))
+        assert page.is_valid() == False
+        page = Page(Div())
+        assert page.is_valid() == True
+        page = Page(Div(content=H1()))
+        assert page.is_valid() == True
+        page = Page(Div(content=Title()))
+        assert page.is_valid() == False
+
+
 
         print("Is_valid() tests: OK!")
 
