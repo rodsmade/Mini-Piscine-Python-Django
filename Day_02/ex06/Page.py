@@ -18,23 +18,42 @@ class Page:
         result += str(self.contents)
         return result
 
+    @staticmethod
+    def validate_html_elem(elem) -> bool:
+        correct_structure = [Head, Body]
+        if type(elem) == Html:
+            if type(elem.content) != list or len(elem.content) != 2:
+                return False
+
+            if type(elem.content[0]) == correct_structure[0] and type(elem.content[1]) == correct_structure[1]:
+                return True
+            else:
+                return False
+        else:
+            return True
+
+    @staticmethod
+    def passes_all_elements_validation(elem):
+        if Page.validate_html_elem(elem):
+            return True
+        return False
+    
     def is_valid(self):
         valid_classes = [Html, Head, Body, Title, Meta, Img, Table,
                          Th, Tr, Td, Ul, Ol, Li, H1, H2, P, Div, Span, Hr, Br, Text]
 
-        if self.contents == list:
-            for elem in self.contents:
-                if type(elem) in valid_classes:
-                    self.is_valid(elem)
+        if self.contents != list:
+            self.contents = [self.contents]
+
+        for elem in self.contents:
+            if type(elem) in valid_classes:
+                if Page.passes_all_elements_validation(elem):
+                    return True
                 else:
                     return False
-            return True
-        else:
-            if type(self.contents) in valid_classes:
-                return True
             else:
                 return False
-
+        return True
 
 class TestClass(Elem):
     pass
@@ -73,6 +92,8 @@ if __name__ == "__main__":
         assert page.is_valid() == False
         page = Page(Html(content=[Head(), Body()]))
         assert page.is_valid() == True
+        page = Page(Html(content=[Body()]))
+        assert page.is_valid() == False
 
         print("Is_valid() tests: OK!")
 
