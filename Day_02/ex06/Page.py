@@ -65,12 +65,24 @@ class Page:
         else:
             return True
         
+    def validate_spans(elem) -> bool:
+        if type(elem) is Span:
+            if type(elem.content) != list:
+                elem.content = [elem.content]
+            for item in elem.content:
+                if (type(item) is not Text) and (type(item) is not P):
+                    return False
+            return True
+        else:
+            return True
+        
         
     @staticmethod
     def passes_all_elements_validation(elem):
         if Page.validate_html_elem(elem) \
             and Page.validate_body_and_div_elem(elem) \
             and Page.validate_ps(elem) \
+            and Page.validate_spans(elem) \
             and Page.validate_single_text_elems(elem):
             return True
         return False
@@ -166,6 +178,23 @@ if __name__ == "__main__":
         page = Page(P(content=[Text(), Text(), Text()]))
         assert page.is_valid() == True
         page = Page(P(content=[Text(), H1(), Text()]))
+        assert page.is_valid() == False
+
+        page = Page(Span(content=H1()))
+        assert page.is_valid() == False
+        page = Page(Span())
+        assert page.is_valid() == True
+        page = Page(Span(content=Text()))
+        assert page.is_valid() == True
+        page = Page(Span(content=[Text(), Text(), Text()]))
+        assert page.is_valid() == True
+        page = Page(Span(content=[Text(), H1(), Text()]))
+        assert page.is_valid() == False
+        page = Page(Span(content=P()))
+        assert page.is_valid() == True
+        page = Page(Span(content=[P(), P(), P()]))
+        assert page.is_valid() == True
+        page = Page(Span(content=[P(), H1(), P()]))
         assert page.is_valid() == False
 
 
