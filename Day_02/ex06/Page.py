@@ -42,10 +42,24 @@ class Page:
         else:
             return True
         
+    def validate_single_text_elems(elem) -> bool:
+        valid_classes = [Title, H1, H2, Li, Th, Td]
+        if type(elem) in valid_classes:
+            if (type(elem.content) == list and len(elem.content) == 0) \
+                or (type(elem.content) == list and len(elem.content) == 1 and type(elem.content[0]) == Text) \
+                or (type(elem.content) != list and type(elem.content) == Text):
+                return True
+            else:
+                return False
+        else:
+            return True
+        
         
     @staticmethod
     def passes_all_elements_validation(elem):
-        if Page.validate_html_elem(elem) and Page.validate_body_and_div_elem(elem):
+        if Page.validate_html_elem(elem) \
+            and Page.validate_body_and_div_elem(elem) \
+            and Page.validate_single_text_elems(elem):
             return True
         return False
     
@@ -116,6 +130,19 @@ if __name__ == "__main__":
         page = Page(Div(content=H1()))
         assert page.is_valid() == True
         page = Page(Div(content=Title()))
+        assert page.is_valid() == False
+        
+        page = Page(Title())
+        assert page.is_valid() == True
+        page = Page(Title(content=Text("Hello")))
+        assert page.is_valid() == True
+        page = Page(Title(content=[Text("Hello")]))
+        assert page.is_valid() == True
+        page = Page(Title(content=[Text("Hello"), Text("Hello")]))
+        assert page.is_valid() == False
+        page = Page(Title(content=[H1()]))
+        assert page.is_valid() == False
+        page = Page(Title(content=H1()))
         assert page.is_valid() == False
 
 
